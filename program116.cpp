@@ -1,46 +1,120 @@
 #include<iostream>
-
 using namespace std;
 
 template<class T>
-
-T Maximum(T *Arr, int size)
+struct node
 {
-	T max = Arr[0];
+    T data;
+    struct node *next;
+};
 
-	for(int iCnt = 0; iCnt < size; iCnt++)
+template<class T>
+class Queue
+{
+    public:
+        struct node<T> *Head;
+        int Count;
+
+        Queue();
+        void Enqueue(T);        // InsertLast
+        void Dequeue();            // DeleteFirst
+        void Display();
+        int CountNode();
+};
+
+template<class T>
+Queue<T>::Queue()
+{
+    Head = NULL;
+    Count = 0;
+}
+
+template<class T>
+void Queue<T>::Enqueue(T no)
+{
+    struct node<T> *newn = NULL;
+    newn = new node<T>;
+
+    newn->data = no;
+    newn->next = NULL;
+
+    if(Head == NULL)
+    {
+        Head = newn;
+    }
+    else
+    {
+            struct node<T> *temp = Head;
+            while(temp->next != NULL)
+            {
+                temp = temp -> next;
+            }
+
+            temp->next = newn;
+    }
+    Count++;
+}
+
+template<class T>
+void Queue<T>::Dequeue()	//DeleteFirst
+{
+      T no;
+
+	if(Head == NULL)
 	{
-		if(Arr[iCnt] > max)
-		{
-			max = Arr[iCnt];
-		}
-
+		cout<<"Queue is empty"<<endl;
+		return;
 	}
+	
+	no = Head->data;
+	struct node<T> *temp = Head;
+	Head = Head->next;
+	delete temp;
 
-	return max;
+	Count--;
+	cout<<"Removed Element Is :"<<no<<endl;
+}
 
+template<class T>
+void Queue<T>::Display()
+{
+    cout<<"Elements from Queue are : "<<endl;
+    struct node<T> *temp = Head;
+    while(temp != NULL)
+    {
+        cout<<temp->data<<" ";
+        temp = temp->next;
+    }
+    cout<<endl;
+}
+
+template<class T>
+int Queue<T>::CountNode()
+{
+    return Count;
 }
 
 int main()
 {
-	int Brr[] = {10,20,30,40,50};
-	int iret = Maximum(Brr,5);
-	cout<<"Maximum No In INT : "<<iret<<endl;
+	Queue<int>obj1;
 
-	float Crr[] = {10.11,20.11,30.11,40.11,50.1100};
-	float fret = Maximum(Crr,5);
-	cout<<"Maximum No In float : "<<fret<<endl;
+	obj1.Enqueue(11);
+	obj1.Enqueue(21);
+	obj1.Enqueue(51);
+	obj1.Enqueue(101);
 
-	char Drr[] = {'A','B','C','D','E','F'};
-	char cret = Maximum(Drr,5);
-	cout<<"Maximum No In char : "<<cret<<endl;
+	obj1.Display();
+	cout<<"No Of Elements In Queue : "<<obj1.CountNode()<<endl;
 
-	
-	double Err[] = {10.11,20.11,30.11,40.11,50.1110};
-	double dret = Maximum(Err,5);
-	cout<<"Maximum No In double : "<<dret<<endl;
+	obj1.Dequeue();
+	obj1.Dequeue();
+	obj1.Dequeue();
 
+	obj1.Display();
+	cout<<"No Of Elements In Queue : "<<obj1.CountNode()<<endl;
 
-	
+	obj1.Dequeue();
+	obj1.Dequeue();
+
 	return 0;
 }

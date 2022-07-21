@@ -1,93 +1,109 @@
 #include<iostream>
-
 using namespace std;
 
 template<class T>
-
-class ArrayX
+struct node
 {
-	private:
-		T *Arr;
-		int Size;
-	public:
-		ArrayX(int);
-
-		~ArrayX();
-
-		void Accept();
-
-		void Display();
-
-		T Maximum();
-
+    T data;
+    struct node *next;
 };
 
 template<class T>
-ArrayX<T>::ArrayX(int value)	// compiler will know now its class of template using <T>
+class Stack
 {
-	Size = value;
+    public:
+        struct node<T> *Head;
+        int Count;
 
-	Arr = new T[Size];
+        Stack();
+        void Push(T);        // InsertLast
+        void Pop();          // DeleteFirst
+        void Display();
+        int CountNode();
+};
+
+template<class T>
+Stack<T>::Stack()
+{
+    Head = NULL;
+    Count = 0;
 }
 
 template<class T>
-ArrayX<T>::~ArrayX()
+void Stack<T>::Push(T no)
 {
-	delete [] Arr;
+    struct node<T> *newn = NULL;
+    newn = new node<T>;
+
+    newn->data = no;
+    newn->next = NULL;
+    
+    newn->next = Head;		// it will work for both condition
+    Head = newn;
+    Count++;
 }
 
 template<class T>
-void ArrayX<T>::Accept()
+void Stack<T>::Pop()	//DeleteFirst
 {
-	cout<<"Enter The Values : "<<endl;
-	for(int i=0; i<Size; i++)
+      T no;
+
+	if(Head == NULL)
 	{
-		cin>>Arr[i];
+		cout<<"Stack is empty"<<endl;
+		return;
 	}
+	
+	no = Head->data;
+	struct node<T> *temp = Head;
+	Head = Head->next;
+	delete temp;
+
+	Count--;
+	cout<<"Removed Element Is :"<<no<<endl;
 }
 
 template<class T>
-void ArrayX<T>::Display()
+void Stack<T>::Display()
 {
-	cout<<"Values Are : "<<endl;
-	for(int i=0; i<Size; i++)
-	{
-		cout<<Arr[i]<<" ";
-	}
-	cout<<endl;
+    cout<<"Elements from Stack are : "<<endl;
+    struct node<T> *temp = Head;
+    while(temp != NULL)
+    {
+        cout<<temp->data<<" ";
+        temp = temp->next;
+    }
+    cout<<endl;
 }
 
 template<class T>
-T ArrayX<T>::Maximum()
+int Stack<T>::CountNode()
 {
-	T max = Arr[0];
-
-	for(int i=0; i<Size; i++)
-	{
-		if(Arr[i] > max)
-		{
-			max = Arr[i];
-		}
-	}
-
-	return max;
+    return Count;
 }
-
 
 int main()
 {
-	ArrayX <int>obj(5);	// compiler will know that we are passing integere using this<int>
+	Stack<char>obj1;
 
-	obj.Accept();
-	obj.Display();
+	obj1.Push('A');
+	obj1.Push('B');
+	obj1.Push('C');
+	obj1.Push('D');
+	
+	obj1.Display();
+	cout<<"Elements Are : "<<obj1.CountNode()<<endl;
 
-	cout<<"Maximum No is : "<<obj.Maximum()<<endl;
+	obj1.Pop();
+	obj1.Pop();
+	
+	obj1.Push('Z');
+	obj1.Display();
+	cout<<"Elements Are : "<<obj1.CountNode()<<endl;
+	
+	obj1.Pop();
 
-	ArrayX <float>obj2(5);	// compiler will know that we are passing float using this<float>
-
-	obj2.Accept();
-	obj2.Display();
-
-	cout<<"Maximum No is : "<<obj2.Maximum()<<endl;
+	obj1.Display();
+	cout<<"Elements Are : "<<obj1.CountNode()<<endl;
 	return 0;
 }
