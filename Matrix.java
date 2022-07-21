@@ -1,5 +1,3 @@
-package MarvellousMatrix;
-
 import java.lang.*;
 import java.util.*;
 

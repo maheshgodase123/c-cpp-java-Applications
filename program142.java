@@ -13,5 +13,14 @@ class program142
 		System.out.println("Enter The String : ");
 
 		String str = sobj.nextLine();
+
+		//char arr[] = new char[str.length()] he apan manually kru sakto for loop laun string madhun ani array madhe elements takayche
+
+		char arr[] = str.toCharArray();
+
+		for(int i=0; i < arr.length; i++)
+		{
+			System.out.println(arr[i]);	
+		}
 	}
 }
